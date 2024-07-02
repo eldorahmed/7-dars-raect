@@ -1,8 +1,7 @@
 import { FormInput } from "../components";
 import { Form, Link, useActionData, Navigate } from "react-router-dom";
-import { useAuth } from "../context/GlobalContext";
-import { useState } from "react";
-import { doCreateUserWithEmailAndPassword } from "../auth"; 
+import { useEffect, useState } from "react";
+
 // action
 
 export const action = async ({ request }) => {
@@ -15,32 +14,28 @@ export const action = async ({ request }) => {
   return { displayName, imgURL, email, password,passwordConfirm};
 };
 
+import { useRegister } from "../hooks/useRegister";
+
 function Register() {
   const registerData = useActionData();
-  registerData && console.log(registerData);
-  const [isRegistering, setIsRegistering] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
-  const { userLoggedIn } = useAuth()
+  const {registerWithGoogle,isPanding}=useRegister()
 
-  const onSubmit = async (e) => {
-    e.preventDefault()
-    if(!isRegistering) {
-        setIsRegistering(true)
-        await doCreateUserWithEmailAndPassword(registerData && registerData.email, registerData && registerData.password)
-    }
-}
+useEffect(()=>{
+  if(registerData){
+    console.log(registerData)
+  }
 
+},[registerData])
   
 
   return (
     <>
-     {userLoggedIn && (<Navigate to={'/home'} replace={true} />)}
       <div className="auth-container">
         <div className="bg-slate-400 hidden lg:flex items-center justify-center ">
           <div className="  w-[70%] h-[70%] hidden lg:block bg-center bg-[url('./assets/signup.svg')] bg-no-repeat bg-contain"></div>
         </div>
         <div className="bg-slate-200 flex justify-center items-center ">
-          <Form  onSubmit={onSubmit} method="post" className="flex flex-col gap-1">
+          <Form method="post" className="flex flex-col gap-1">
             <h1 className="text-center text-xl">Register</h1>
            
             <FormInput
@@ -63,7 +58,6 @@ function Register() {
             />
             <FormInput
               name="password"
-              disabled={isRegistering}
               type="password"
               label="Password"
               placeholder="Enter your password"
@@ -75,10 +69,10 @@ function Register() {
               placeholder="Repeat your password"
             />
             <div>
-              <button disabled={isRegistering} className="btn bg-slate-400 text-white mr-2">
+              <button  className="btn bg-slate-400 text-white mr-2">
                 Register
               </button>
-              <button type="button" className="btn bg-slate-600 text-white">
+              <button onClick={registerWithGoogle} type="button" className="btn bg-slate-600 text-white">
                 {" "}
                 Sign up with Google
               </button>

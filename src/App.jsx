@@ -4,16 +4,16 @@ import RootLayout from "./layouts/RootLayout";
 import { Home, About, Contact, Login, Register } from "./pages";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 // actions
-import {action as RegisterAction} from './pages/Register'
-import {action as LoginAction} from './pages/Login'
+import { action as RegisterAction } from "./pages/Register";
+import { action as LoginAction } from "./pages/Login";
 
 function App() {
-  let user = false;
+  let user = true;
   const routes = createBrowserRouter([
     {
       path: "/",
       element: (
-        <ProtectedRoutes>
+        <ProtectedRoutes user={user}>
           <RootLayout />
         </ProtectedRoutes>
       ),
