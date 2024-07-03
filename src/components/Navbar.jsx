@@ -1,8 +1,14 @@
-import {Link, useNavigate } from "react-router-dom"
-import { useAuth } from "../context/GlobalContext"
-
-
+import {Link, useNavigate,NavLink} from "react-router-dom"
+import { useGlobalContext } from "../context/GlobalContext"
+import { signOut } from "firebase/auth"
+import { auth } from "../firebase/firebaseConfig"
+import toast from "react-hot-toast"
 function Navbar() {
+    const signOutProfile= async()=>{
+      await signOut(auth)
+      toast.success('See you soon!')
+    }
+    const {user}=useGlobalContext()
 
   return (
     <div className=" container mx-auto navbar bg-base-100">
@@ -25,22 +31,44 @@ function Navbar() {
       <ul
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-        <li><a>Home</a></li>
-        <li><a>About</a></li>
-        <li><a>Contact</a></li>
+        <li><NavLink to="/">Home</NavLink></li>
+        <li><NavLink to="/about">About</NavLink></li>
+        <li><NavLink to="/contact">Contact</NavLink></li>
       </ul>
     </div>
     <a className="btn btn-ghost text-xl">Woo</a>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-      <li><a>Home </a></li>
-      <li><a>About</a></li>
-      <li><a>Contact</a></li>
+      <li><NavLink to="/">Home </NavLink></li>
+      <li><NavLink to="/about">About</NavLink></li>
+      <li><NavLink to="/contact">Contact</NavLink></li>
     </ul>
   </div>
   <div className="navbar-end">
-    <Link to='login' className="btn">Login</Link>
+    <p>{user.displayName}</p>
+  <div className="dropdown dropdown-end mr-2">
+      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+        <div className="w-10 rounded-full">
+          <img
+            alt="Tailwind CSS Navbar component"
+            src={user.photoURL ? user.photoURL : "https://freight.cargo.site/t/original/i/a80d0a3b47187f1b4614528914996af4a56216840bd3d903e85b2a8d348ec9c7/Artboard-2.png"} />
+        </div>
+      </div>
+      <ul
+        tabIndex={0}
+        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <li>
+          <a className="justify-between">
+            Profile
+            <span onClick={signOutProfile} className="badge">New</span>
+          </a>
+        </li>
+        <li><a>Settings</a></li>
+        <li><a onClick={signOutProfile}>Logout</a></li>
+      </ul>
+    </div>
+    <button onClick={signOutProfile} className="btn">Log Out</button>
   </div>
 </div>
   )

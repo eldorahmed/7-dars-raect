@@ -18,11 +18,11 @@ import { useRegister } from "../hooks/useRegister";
 
 function Register() {
   const registerData = useActionData();
-  const {registerWithGoogle,isPanding}=useRegister()
+  const {registerWithGoogle,isPanding,registerEmailAndPassword}=useRegister()
 
 useEffect(()=>{
   if(registerData){
-    console.log(registerData)
+    registerEmailAndPassword(registerData.email,registerData.password,registerData.passwordConfirm,registerData.displayName,registerData.imgURL)
   }
 
 },[registerData])
@@ -69,12 +69,12 @@ useEffect(()=>{
               placeholder="Repeat your password"
             />
             <div>
-              <button  className="btn bg-slate-400 text-white mr-2">
-                Register
+              <button disabled={isPanding}  className="btn bg-slate-400 text-white mr-2">
+                {isPanding ? "Loading" : "Register"}
               </button>
-              <button onClick={registerWithGoogle} type="button" className="btn bg-slate-600 text-white">
+              <button disabled={isPanding} onClick={registerWithGoogle} type="button" className="btn bg-slate-600 text-white">
                 {" "}
-                Sign up with Google
+                {isPanding ? 'Loading...' : 'Sign up with Google' }
               </button>
             </div>
             <div>

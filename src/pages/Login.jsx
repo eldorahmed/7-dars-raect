@@ -8,12 +8,16 @@ export const action = async ({ request }) => {
   let password = formData.get("password");
   return { email, password };
 };
+import { useRegister } from "../hooks/useRegister";
+import { useLogin } from "../hooks/useLogin";
 
 function Login() {
   const loginData = useActionData();
+  const{isPanding,registerWithGoogle}=useRegister()
+  const{isPending,signIn}=useLogin()
   useEffect(() => {
     if (loginData) {
-      console.log(loginData);
+      signIn(loginData.email,loginData.password);
     }
   }, [loginData]);
 
@@ -43,12 +47,12 @@ function Login() {
               placeholder="Enter your password"
             />
             <div>
-              <button className="btn bg-slate-400 text-white mr-2">
+              <button disabled={isPending} className="btn bg-slate-400 text-white mr-2">
                 Login
               </button>
-              <button type="button" className="btn bg-slate-600 text-white">
+              <button disabled={isPanding} onClick={registerWithGoogle} type="button" className="btn bg-slate-600 text-white">
                 {" "}
-                Continue with Google
+                {isPanding ? 'Loading...' : 'Continue with Google' }
               </button>
             </div>
             <div>
