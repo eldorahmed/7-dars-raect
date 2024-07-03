@@ -43,6 +43,7 @@ useEffect(()=>{
               type="text"
               label="Name"
               placeholder="Enter your Name"
+              required
             />
             <FormInput
               name="imgURL"
@@ -55,18 +56,21 @@ useEffect(()=>{
               type="email"
               label="Email"
               placeholder="Enter your email"
+              required
             />
             <FormInput
               name="password"
               type="password"
               label="Password"
               placeholder="Enter your password"
+              required
             />
             <FormInput
               name="passwordConfirm"
               type="password"
               label=" Confirm Password"
               placeholder="Repeat your password"
+              required
             />
             <div>
               <button disabled={isPanding}  className="btn bg-slate-400 text-white mr-2">

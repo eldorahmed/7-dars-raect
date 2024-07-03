@@ -68,7 +68,6 @@ function Navbar() {
         <li><a onClick={signOutProfile}>Logout</a></li>
       </ul>
     </div>
-    <button onClick={signOutProfile} className="btn">Log Out</button>
   </div>
 </div>
   )
