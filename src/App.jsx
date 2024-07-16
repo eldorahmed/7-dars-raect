@@ -7,9 +7,12 @@ import { useGlobalContext } from "./context/GlobalContext";
 // actions
 import { action as RegisterAction } from "./pages/Register";
 import { action as LoginAction } from "./pages/Login";
+import { action as ToDoAction } from "./pages/Todos";
 import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebaseConfig";
+// loader
+
 
 function App() {
   const{user,dispatch,isAuthready}=useGlobalContext()
@@ -22,7 +25,7 @@ function App() {
         </ProtectedRoutes>
       ),
       children: [
-        { index: true, element: <Home /> },
+        { index: true, element: <Home />, action:ToDoAction},
         { path: "about", element: <About /> },
         { path: "contact", element: <Contact /> },
       ],

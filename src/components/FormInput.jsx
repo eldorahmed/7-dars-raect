@@ -5,6 +5,7 @@ function FormInput({ label, type, name, placeholder }) {
         <span className="label-text">{label}</span>
       </div>
       <input
+      required
         type={type}
         name={name}
         placeholder={placeholder}
